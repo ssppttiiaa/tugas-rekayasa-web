@@ -8,7 +8,11 @@ exports.getBooks = (req, res) => {
         (err, result) => {
 
             if (err) {
-                return res.status(500).json(err);
+                console.error("MYSQL ERROR:", err);
+                return res.status(500).json({
+                    error: err.message,
+                    code: err.code
+                });
             }
 
             res.json(result);
