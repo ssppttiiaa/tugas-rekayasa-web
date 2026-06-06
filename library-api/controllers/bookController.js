@@ -2,22 +2,21 @@ const db = require("../config/db");
 
 // GET semua buku
 exports.getBooks = (req, res) => {
+    db.query("SELECT * FROM books", (err, result) => {
 
-    db.query(
-        "SELECT * FROM books",
-        (err, result) => {
+        console.log("ERROR =", err);
+        console.log("RESULT =", result);
 
-            if (err) {
-                console.error("MYSQL ERROR:", err);
-                return res.status(500).json({
-                    error: err.message,
-                    code: err.code
-                });
-            }
-
-            res.json(result);
+        if (err) {
+            return res.status(500).json({
+                message: err.message,
+                code: err.code,
+                errno: err.errno
+            });
         }
-    );
+
+        res.json(result);
+    });
 };
 
 // GET buku berdasarkan ID
